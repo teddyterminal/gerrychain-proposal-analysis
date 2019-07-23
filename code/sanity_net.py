@@ -7,8 +7,7 @@ import pandas as pd
 import numpy as np
 
 model = Sequential()
-model.add(Dense(60, input_dim = 8921, activation='relu'))
-model.add(Dropout(0.5))
+model.add(Dense(3, input_dim = 8921, activation='relu'))
 model.add(Dense(1, activation = 'sigmoid'))
 
 sgd = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9, nesterov = True)
@@ -25,11 +24,16 @@ del gop["Unnamed: 0"]
 neutral["Y"] = 0
 gop["Y"] = 1
 
+print(gop)
+print(neutral)
+
 print("Combining Data......")
 combined = pd.concat([neutral, gop])
+print(combined)
 
 print("Shuffling and sampling data.....")
 combined = combined.sample(frac=1).reset_index(drop=True)
+print(combined)
 
 Y = combined["Y"].values
 del combined["Y"]
@@ -44,7 +48,7 @@ Ytest = Y[81600:]
 print(Xtrain, Ytrain, Xtest, Ytest)
 
 print("Training.....")
-history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 10, 
+history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 3, 
 	verbose = 2, validation_split = 0.125, shuffle = True)
 
 e = model.evaluate(x = Xtest, y = Ytest, batch_size = 128, verbose = 1)
