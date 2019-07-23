@@ -47,7 +47,7 @@ Ytest = Y[81600:]
 
 print("Training.....")
 history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 20, 
-	verbose = 2, validation_split = 0.125, shuffle = True, validation_freq=1)
+	verbose = 2, validation_split = 0.125, shuffle = True)
 
 e = model.evaluate(x = Xtest, y = Ytest, batch_size = 128, verbose = 1)
 
