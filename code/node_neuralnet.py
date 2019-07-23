@@ -10,7 +10,7 @@ model.add(Dense(1024, input_dim = 8921, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(128, activation = 'relu'))
 model.add(Dropout(0.5))
-model.add(Dense(32, actication = 'relu'))
+model.add(Dense(32, activation = 'relu'))
 model.add(Dropout(0.5))
 model.add(Dense(1, activation = 'sigmoid'))
 
