@@ -41,10 +41,10 @@ del combined["Y"]
 
 X = combined.values
 
-Xtrain = X[:81600]
-Ytrain = Y[:81600]
-Xtest = X[81600:]
-Ytest = Y[81600:]
+Xtrain = X[:8160]
+Ytrain = Y[:8160]
+Xtest = X[8160:]
+Ytest = Y[8160:]
 
 print(Xtrain, Ytrain, Xtest, Ytest)
 
