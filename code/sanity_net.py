@@ -17,7 +17,9 @@ model.compile(loss = 'binary_crossentropy',
 
 print("Reading Data Files..... ")
 neutral = pd.read_csv("../data/generated_datasets/PA_BN_50000_20190720")
+print("Second File")
 gop = pd.read_csv("../data/generated_datasets/PA_GOPBN_50000_20190721")
+print("adding zeros.....")
 del neutral["Unnamed: 0"]
 del gop["Unnamed: 0"]
 
