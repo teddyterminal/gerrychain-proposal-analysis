@@ -45,8 +45,10 @@ Ytrain = Y[:81600]
 Xtest = X[81600:]
 Ytest = Y[81600:]
 
+print(Xtrain, Ytrain, Xtest, Ytest)
+
 print("Training.....")
-history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 20, 
+history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 3, 
 	verbose = 2, validation_split = 0.125, shuffle = True)
 
 e = model.evaluate(x = Xtest, y = Ytest, batch_size = 128, verbose = 1)
