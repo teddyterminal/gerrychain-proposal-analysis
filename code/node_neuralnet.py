@@ -1,6 +1,7 @@
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
+from keras.optimizers import SGD
 
 import pandas as pd
 import numpy as np
