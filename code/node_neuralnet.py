@@ -21,8 +21,8 @@ model.compile(loss = 'binary_crossentropy',
 	metrics = ['accuracy'])
 
 print("Reading Data Files..... ")
-neutral = pd.read_csv("../data/generated_datasets/PA_BN_50000_20190720")
-gop = pd.read_csv("../data/generated_datasets/PA_GOPBN_50000_20190721")
+neutral = pd.read_csv("../data/generated_datasets/PA_BW_50000_20190720")
+gop = pd.read_csv("../data/generated_datasets/PA_GOPBW_50000_20190721")
 del neutral["Unnamed: 0"]
 del gop["Unnamed: 0"]
 
@@ -48,7 +48,7 @@ Ytest = Y[81600:]
 print(Xtrain, Ytrain, Xtest, Ytest)
 
 print("Training.....")
-history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 3, 
+history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 4, 
 	verbose = 2, validation_split = 0.125, shuffle = True)
 
 e = model.evaluate(x = Xtest, y = Ytest, batch_size = 128, verbose = 1)
