@@ -7,7 +7,6 @@ import pandas as pd
 import numpy as np
 
 model = Sequential()
-model.add(Dense(3, input_dim = 8921, activation='relu'))
 model.add(Dense(1, activation = 'sigmoid'))
 
 sgd = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9, nesterov = True)
