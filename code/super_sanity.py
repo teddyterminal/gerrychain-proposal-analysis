@@ -46,6 +46,8 @@ Y = [random.randint(0, 1) for i in range(102000)]
 
 X = []
 for i in range(102000):
+	if i%1000 == 0:
+		print(i)
 	q = [1 if random.random() < 0.185 else 0 for i in range(8921)]
 	X.append(q)
 
