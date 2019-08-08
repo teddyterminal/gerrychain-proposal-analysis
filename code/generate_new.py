@@ -127,7 +127,7 @@ def chain(iterations):
                 print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
         else:
             if count%1000 == 0:
-                print("Mixing...... Iteration", count, "/25000")
+                print(idef, "Mixing...... Iteration", count, "/25000")
         count += 1
 
     return metrics, boundary_nodes, boundary_weighted
@@ -210,7 +210,7 @@ def gop_chain(iterations):
                 print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
         else:
             if count%1000 == 0:
-                print("Mixing...... Iteration", count, "/25000")
+                print(idef, "Mixing...... Iteration", count, "/25000")
         count += 1
 
     return metrics, boundary_nodes, boundary_weighted
@@ -233,11 +233,6 @@ metrics = np.concatenate([results[i][0] for i in range(24)])
 boundary_nodes = np.concatenate([results[i][1] for i in range(24)])
 boundary_weighted = np.concatenate([results[i][2] for i in range(24)])
 
-gmetrics = np.concatenate([results[i][0] for i in range(24)])
-gboundary_nodes = np.concatenate([results[i][1] for i in range(24)])
-gboundary_weighted = np.concatenate([results[i][2] for i in range(24)])
-
-
 df = pd.DataFrame(metrics)
 df.columns = ["Mean-Median", "Polsby-Popper", "Bias", "Gini", "Gap", "Cuts", "Wins"]
 
@@ -248,6 +243,10 @@ df2.to_csv("PA_BN_50000_20190809")
 
 df3 = pd.DataFrame(boundary_weighted)
 df3.to_csv("PA_BW_50000_20190809")
+
+gmetrics = np.concatenate([results[i][0] for i in range(24)])
+gboundary_nodes = np.concatenate([results[i][1] for i in range(24)])
+gboundary_weighted = np.concatenate([results[i][2] for i in range(24)])
 
 df = pd.DataFrame(gmetrics)
 df.columns = ["Mean-Median", "Polsby-Popper", "Bias", "Gini", "Gap", "Cuts", "Wins"]
