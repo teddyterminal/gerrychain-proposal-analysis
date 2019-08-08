@@ -82,7 +82,7 @@ def chain(iterations):
             constraints=[],
             accept=contiguous,
             initial_state=initial_partition,
-            total_steps=125*iterations + 25000
+            total_steps=85*iterations + 17000
         )
 
     count = 0
@@ -96,8 +96,8 @@ def chain(iterations):
         gini = partisan_gini(partition["SEN12"])
         gap = efficiency_gap(partition["SEN12"])
         cut = len(partition["cut_edges"])
-        if count >= 25000:
-            if count % 125 == 0: 
+        if count >= 100:
+            if count % 85 == 0: 
                 metrics.append((mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep")))
                 nodes = [0]*8921
                 bnodes = [0]*8921
@@ -115,19 +115,19 @@ def chain(iterations):
 
                 plt.axis('off')
 
-                plt.savefig("images/PA_neutral/" + str(int((count-25000)/125)+1) + ".png")
+                plt.savefig("images/PA_neutral/" + str(int((count-17000)/85)+1) + str(idef) + ".png")
 
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("images/PA_neutral/" + str(int((count-25000)/125)+1) + "r.png", dpi=600)
+                fig.savefig("images/PA_neutral/" + str(int((count-17000)/85)+1) + str(idef) + "r.png", dpi=600)
 
                 plt.close()
 
-            if count % 12500 == 0: 
+            if count % 8500 == 0: 
                 print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
         else:
             if count%1000 == 0:
-                print(idef, "Mixing...... Iteration", count, "/25000")
+                print(idef, "Mixing...... Iteration", count, "/17000")
         count += 1
 
     return metrics, boundary_nodes, boundary_weighted
@@ -165,7 +165,7 @@ def gop_chain(iterations):
             constraints=[republican_constraint],
             accept=contiguous,
             initial_state=initial_partition,
-            total_steps=125*iterations + 25000
+            total_steps=85*iterations + 17000
         )
 
     count = 0
@@ -179,8 +179,8 @@ def gop_chain(iterations):
         gini = partisan_gini(partition["SEN12"])
         gap = efficiency_gap(partition["SEN12"])
         cut = len(partition["cut_edges"])
-        if count >= 25000:
-            if count % 125 == 0:
+        if count >= 17000:
+            if count % 85 == 0:
                 metrics.append((mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep")))
                 nodes = [0]*8921
                 bnodes = [0]*8921
@@ -198,19 +198,19 @@ def gop_chain(iterations):
 
                 plt.axis('off')
 
-                plt.savefig("images/PA_gop/" + str(int((count-25000)/125)+1) + ".png")
+                plt.savefig("images/PA_gop/" + str(int((count-17000)/85)+1) + str(idef) + ".png")
 
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("images/PA_gop/" + str(int((count-25000)/125)+1) + "r.png", dpi=600)
+                fig.savefig("images/PA_gop/" + str(int((count-17000)/85)+1) + str(idef) + "r.png", dpi=600)
 
                 plt.close()
 
-            if count % 12500 == 0: 
+            if count % 8500 == 0: 
                 print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
         else:
             if count%1000 == 0:
-                print(idef, "Mixing...... Iteration", count, "/25000")
+                print(idef, "Mixing...... Iteration", count, "/17000")
         count += 1
 
     return metrics, boundary_nodes, boundary_weighted
