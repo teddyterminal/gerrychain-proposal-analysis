@@ -51,7 +51,7 @@ def republican_constraint(partition):
 
 def chain(iterations):
     idef = random.randint(1, 10000)
-    graph = Graph.from_json("./PA_VTD.json")
+    graph = Graph.from_json("../data/PA_init/PA_VTD.json")
 
     election = Election("SEN12", {"Dem": "USS12D", "Rep": "USS12R"})
 
@@ -134,7 +134,7 @@ def chain(iterations):
 
 def gop_chain(iterations):
     idef = random.randint(1, 10000)
-    graph = Graph.from_json("./PA_VTD.json")
+    graph = Graph.from_json("../data/PA_init/PA_VTD.json")
 
     election = Election("SEN12", {"Dem": "USS12D", "Rep": "USS12R"})
 
