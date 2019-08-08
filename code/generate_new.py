@@ -96,7 +96,7 @@ def chain(iterations):
         gini = partisan_gini(partition["SEN12"])
         gap = efficiency_gap(partition["SEN12"])
         cut = len(partition["cut_edges"])
-        if count >= 100:
+        if count >= 85:
             if count % 85 == 0: 
                 metrics.append((mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep")))
                 nodes = [0]*8921
@@ -109,7 +109,7 @@ def chain(iterations):
                 boundary_nodes.append(nodes)
                 boundary_weighted.append(bnodes)
 
-                shape["CD"] = df.index.map(partition.assignment)
+                shape["CD"] = shape.index.map(partition.assignment)
                 this_map = shape.dissolve(by='CD')
                 this_map.plot(color='black', edgecolor='white')
 
