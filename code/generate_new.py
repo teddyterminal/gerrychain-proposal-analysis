@@ -116,7 +116,7 @@ def chain(iterations):
                 plt.axis('off')
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("../images/PA_neutral/" + str(idef) + str(int((count-17000)/85)+1) + "r.png", dpi=600, bbox_inches="tight", pad_inches=0)
+                fig.savefig("../images/PA_neutral/" + str(idef) + str(int((count-17000)/85)+1) + ".png", dpi=600, bbox_inches="tight", pad_inches=0)
 
                 plt.close()
 
@@ -196,7 +196,7 @@ def gop_chain(iterations):
                 plt.axis('off')
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("../images/PA_gop/" + str(idef) + str(int((count-17000)/85)+1) +  "r.png", dpi=600, bbox_inches="tight", pad_inches=0)
+                fig.savefig("../images/PA_gop/" + str(idef) + str(int((count-17000)/85)+1) +  ".png", dpi=600, bbox_inches="tight", pad_inches=0)
 
                 plt.close()
 
