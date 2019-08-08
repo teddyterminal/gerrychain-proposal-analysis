@@ -116,11 +116,11 @@ def chain(iterations):
 
                 plt.axis('off')
 
-                plt.savefig("images/PA_neutral/" + str(int((count-17000)/85)+1) + str(idef) + ".png")
+                plt.savefig("images/PA_neutral/" + str(int((count)/85)+1) + str(idef) + ".png")
 
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("images/PA_neutral/" + str(int((count-17000)/85)+1) + str(idef) + "r.png", dpi=600)
+                fig.savefig("images/PA_neutral/" + str(int((count)/85)+1) + str(idef) + "r.png", dpi=600)
 
                 plt.close()
 
