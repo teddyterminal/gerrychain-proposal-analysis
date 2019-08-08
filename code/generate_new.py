@@ -96,7 +96,7 @@ def chain(iterations):
         gini = partisan_gini(partition["SEN12"])
         gap = efficiency_gap(partition["SEN12"])
         cut = len(partition["cut_edges"])
-        if count >= 85:
+        if count >= 17000:
             if count % 85 == 0: 
                 metrics.append((mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep")))
                 nodes = [0]*8921
@@ -112,7 +112,7 @@ def chain(iterations):
                 assign = {i: partition.assignment[i] for i in partition.assignment}
                 shape["CD"] = shape.index.map(assign)
                 this_map = shape.dissolve(by='CD')
-                this_map.plot(color='black', edgecolor='white')
+                this_map.plot(color='white', edgecolor='black')
                 plt.axis('off')
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
@@ -127,7 +127,7 @@ def chain(iterations):
                 print(idef, "Mixing...... Iteration", count, "/17000")
         count += 1
 
-    return metrics, boundary_nodes, boundary_weighted
+    return metrics, boundary_nodes, boundary_weighted, idef
 
 def gop_chain(iterations):
     idef = random.randint(1, 10000)
@@ -192,7 +192,7 @@ def gop_chain(iterations):
                 assign = {i: partition.assignment[i] for i in partition.assignment}
                 shape["CD"] = shape.index.map(assign)
                 this_map = shape.dissolve(by='CD')
-                this_map.plot(color='black', edgecolor='white')
+                this_map.plot(color='white', edgecolor='black')
                 plt.axis('off')
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
@@ -207,48 +207,50 @@ def gop_chain(iterations):
                 print(idef, "Mixing...... Iteration", count, "/17000")
         count += 1
 
-    return metrics, boundary_nodes, boundary_weighted
+    return metrics, boundary_nodes, boundary_weighted, idef
 
 
 
 pool = Pool(processes = 24)
-N = 51000
+N = 12000
 results = pool.map(chain, (N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24, 
                            N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24, 
                            N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24))
 
-pool = Pool(processes = 24)
-N = 51000
-gop_results = pool.map(gop_chain, (N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24, 
-                               N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24, 
-                               N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24))
-
 metrics = np.concatenate([results[i][0] for i in range(24)])
 boundary_nodes = np.concatenate([results[i][1] for i in range(24)])
 boundary_weighted = np.concatenate([results[i][2] for i in range(24)])
+print([results[i][3] for i in range(24)])
 
 df = pd.DataFrame(metrics)
 df.columns = ["Mean-Median", "Polsby-Popper", "Bias", "Gini", "Gap", "Cuts", "Wins"]
 
-df.to_csv("PA_NC_50000_20190809")
+df.to_csv("PA_NC_12000_20190809")
 
 df2 = pd.DataFrame(boundary_nodes)
-df2.to_csv("PA_BN_50000_20190809")
+df2.to_csv("PA_BN_12000_20190809")
 
 df3 = pd.DataFrame(boundary_weighted)
-df3.to_csv("PA_BW_50000_20190809")
+df3.to_csv("PA_BW_12000_20190809")
 
-gmetrics = np.concatenate([results[i][0] for i in range(24)])
-gboundary_nodes = np.concatenate([results[i][1] for i in range(24)])
-gboundary_weighted = np.concatenate([results[i][2] for i in range(24)])
+pool = Pool(processes = 24)
+N = 12000
+gop_results = pool.map(gop_chain, (N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24, 
+                               N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24, 
+                               N/24, N/24, N/24, N/24, N/24, N/24, N/24, N/24))
+
+gmetrics = np.concatenate([gop_results[i][0] for i in range(24)])
+gboundary_nodes = np.concatenate([gop_results[i][1] for i in range(24)])
+gboundary_weighted = np.concatenate([gop_results[i][2] for i in range(24)])
+print([gop_results[i][3] for i in range(24)])
 
 df = pd.DataFrame(gmetrics)
 df.columns = ["Mean-Median", "Polsby-Popper", "Bias", "Gini", "Gap", "Cuts", "Wins"]
 
-df.to_csv("PA_GOP_50000_20190809")
+df.to_csv("PA_GOP_12000_20190809")
 
 df2 = pd.DataFrame(gboundary_nodes)
-df2.to_csv("PA_GOPBN_50000_20190809")
+df2.to_csv("PA_GOPBN_12000_20190809")
 
 df3 = pd.DataFrame(gboundary_weighted)
 df3.to_csv("PA_GOPBW_50000_20190809")
