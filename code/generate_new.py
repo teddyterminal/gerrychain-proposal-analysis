@@ -113,14 +113,10 @@ def chain(iterations):
                 shape["CD"] = shape.index.map(assign)
                 this_map = shape.dissolve(by='CD')
                 this_map.plot(color='black', edgecolor='white')
-
                 plt.axis('off')
-
-                plt.savefig("../images/PA_neutral/" + str(int((count-17000)/85)+1) + str(idef) + ".png")
-
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("../images/PA_neutral/" + str(int((count-17000)/85)+1) + str(idef) + "r.png", dpi=600)
+                fig.savefig("../images/PA_neutral/" + str(idef) + str(int((count-17000)/85)+1) + "r.png", dpi=600, bbox_inches="tight", pad_inches=0)
 
                 plt.close()
 
@@ -197,14 +193,10 @@ def gop_chain(iterations):
                 shape["CD"] = shape.index.map(assign)
                 this_map = shape.dissolve(by='CD')
                 this_map.plot(color='black', edgecolor='white')
-
                 plt.axis('off')
-
-                plt.savefig("../images/PA_gop/" + str(int((count-17000)/85)+1) + str(idef) + ".png")
-
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("../images/PA_gop/" + str(int((count-17000)/85)+1) + str(idef) + "r.png", dpi=600)
+                fig.savefig("../images/PA_gop/" + str(idef) + str(int((count-17000)/85)+1) +  "r.png", dpi=600, bbox_inches="tight", pad_inches=0)
 
                 plt.close()
 
