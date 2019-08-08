@@ -109,7 +109,8 @@ def chain(iterations):
                 boundary_nodes.append(nodes)
                 boundary_weighted.append(bnodes)
 
-                shape["CD"] = shape.index.map(partition.assignment)
+                assign = {i: partition.assignment[i] for i in partition.assignment}
+                shape["CD"] = shape.index.map(assign)
                 this_map = shape.dissolve(by='CD')
                 this_map.plot(color='black', edgecolor='white')
 
@@ -192,7 +193,8 @@ def gop_chain(iterations):
                 boundary_nodes.append(nodes)
                 boundary_weighted.append(bnodes)
 
-                shape["CD"] = df.index.map(partition.assignment)
+                assign = {i: partition.assignment[i] for i in partition.assignment}
+                shape["CD"] = shape.index.map(assign)
                 this_map = shape.dissolve(by='CD')
                 this_map.plot(color='black', edgecolor='white')
 
