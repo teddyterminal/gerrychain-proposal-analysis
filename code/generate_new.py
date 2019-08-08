@@ -29,9 +29,9 @@ from gerrychain.metrics import wasted_votes
 from multiprocessing import Pool
 import random
 
-
+print("Reading Shapefile......")
 shape = gpd.read_file("../data/PA_init/PA_VTD.shp")
-
+print("Shapefile read!!!")
 
 m = 9
 
