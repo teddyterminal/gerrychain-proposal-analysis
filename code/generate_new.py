@@ -177,7 +177,7 @@ def gop_chain(iterations):
 
     def prop(partition): 
         q = random.random()
-        if q < 0.01: 
+        if q < 0: 
             return prev_part
         else:
             return recom(partition,
