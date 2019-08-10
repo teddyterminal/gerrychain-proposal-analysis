@@ -201,7 +201,7 @@ def gop_chain(iterations):
     boundary_nodes = []
     boundary_weighted = []
     for partition in chain.with_progress_bar(): 
-        if (prev_part == initial_partition):
+        if (prev_part == None):
             print (count, "HALP")
         prev_part = this_part
         this_part = partition
