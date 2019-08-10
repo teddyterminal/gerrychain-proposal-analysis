@@ -205,6 +205,9 @@ def gop_chain(iterations):
     for partition in chain.with_progress_bar(): 
         if (prev_part.parent == None):
             print (count, idef, "HALP", prev_part == initial_partition)
+
+        if (partition.parent == None):
+            print(partition == initial_partition, "HALP2", idef, count)
         prev_part = this_part
         this_part = partition
 
