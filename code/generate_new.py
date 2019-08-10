@@ -36,6 +36,7 @@ print("Shapefile read!!!")
 m = 9
 rejected = 0
 rejections = {}
+count = 0
 
 def pp(plan):
     polsby = polsby_popper(plan)
@@ -152,6 +153,7 @@ def chain(iterations):
     return metrics, boundary_nodes, boundary_weighted, idef
 
 def gop_chain(iterations):
+    global count 
     idef = random.randint(1, 10000)
     graph = Graph.from_json("../data/PA_init/PA_VTD.json")
 
@@ -178,7 +180,7 @@ def gop_chain(iterations):
     def prop(partition): 
         q = random.random()
         print(q)
-        if q < 0.01: 
+        if q < 0.01 and count > 3: 
             return prev_part
         else:
             return recom(partition,
