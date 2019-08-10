@@ -180,7 +180,7 @@ def gop_chain(iterations):
         if q < 0.01: 
             return prev_part
         else:
-            return partial(recom,
+            return recom(partition,
                        pop_col="TOT_POP",
                        pop_target=ideal_population,
                        epsilon=0.02,
