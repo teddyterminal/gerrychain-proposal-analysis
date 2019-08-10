@@ -34,6 +34,8 @@ shape = gpd.read_file("../data/PA_init/PA_VTD.shp")
 print("Shapefile read!!!")
 
 m = 9
+rejected = 0
+rejections = {}
 
 def pp(plan):
     polsby = polsby_popper(plan)
@@ -44,10 +46,30 @@ def pp(plan):
 
 def republican_constraint(partition):
     global m 
-    if partition["SEN12"].wins("Rep") < m: 
+    global rejected
+
+    wins = partition["SEN12"].wins("Rep")
+    if wins < m: 
+        rejected += 1
+        if rejected == 500:
+            print("This processor has rejected 500 consecutive plans at", m, "wins; relaxing constraint")
+            tabulate_rejections()
+            m -= 1
         return False
-    m = partition["SEN12"].wins("Rep")
+    tabulate_rejections()
+    m = wins
     return True 
+
+def tabulate_rejections():
+    global m 
+    global rejected
+    global rejections
+
+    if (m, rejected) not in rejections:
+        rejections[(m, rejected)] = 1
+    else: 
+        rejections[(m, rejected)] += 1
+    rejected = 0
 
 def chain(iterations):
     idef = random.randint(1, 10000)
@@ -209,7 +231,7 @@ def gop_chain(iterations):
 
     return metrics, boundary_nodes, boundary_weighted, idef
 
-
+'''
 
 pool = Pool(processes = 24)
 N = 12000
@@ -232,6 +254,7 @@ df2.to_csv("PA_BN_12000_20190809")
 
 df3 = pd.DataFrame(boundary_weighted)
 df3.to_csv("PA_BW_12000_20190809")
+'''
 
 pool = Pool(processes = 24)
 N = 12000
@@ -247,10 +270,10 @@ print([gop_results[i][3] for i in range(24)])
 df = pd.DataFrame(gmetrics)
 df.columns = ["Mean-Median", "Polsby-Popper", "Bias", "Gini", "Gap", "Cuts", "Wins"]
 
-df.to_csv("PA_GOP_12000_20190809")
+df.to_csv("../data/generated_datasets/PA_GOP_12000_20190810")
 
 df2 = pd.DataFrame(gboundary_nodes)
-df2.to_csv("PA_GOPBN_12000_20190809")
+df2.to_csv("../data/generated_datasets/PA_GOPBN_12000_20190810")
 
 df3 = pd.DataFrame(gboundary_weighted)
-df3.to_csv("PA_GOPBW_50000_20190809")
+df3.to_csv("../data/generated_datasets/PA_GOPBW_50000_20190810")
