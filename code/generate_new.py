@@ -169,10 +169,18 @@ def gop_chain(iterations):
 
     ideal_population = sum(initial_partition["population"].values()) / len(initial_partition)
 
+    this_part = initial_partition
+    prev_part = initial_partition
+
     # We use functools.partial to bind the extra parameters (pop_col, pop_target, epsilon, node_repeats)
     # of the recom proposal.
 
-    proposal = partial(recom,
+    def prop(partition): 
+        q = random.random()
+        if q < 0.01: 
+            return prev_part
+        else
+            return partial(recom,
                        pop_col="TOT_POP",
                        pop_target=ideal_population,
                        epsilon=0.02,
@@ -180,7 +188,7 @@ def gop_chain(iterations):
                       )
 
     chain = MarkovChain(
-            proposal=proposal,
+            proposal=prop,
             constraints=[republican_constraint],
             accept=contiguous,
             initial_state=initial_partition,
@@ -192,6 +200,9 @@ def gop_chain(iterations):
     boundary_nodes = []
     boundary_weighted = []
     for partition in chain.with_progress_bar(): 
+        prev_part = this_part
+        this_part = partition
+        
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
         bias = partisan_bias(partition["SEN12"])

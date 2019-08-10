@@ -59,7 +59,6 @@ Ytest = Y[81600:]
 
 print(Xtrain, Ytrain, Xtest, Ytest)
 '''
-
 print("Training.....")
 history = model.fit(x = Xtrain, y = Ytrain, batch_size = 128, epochs = 4, verbose = 2, validation_split = 0.125, shuffle = True)
 
