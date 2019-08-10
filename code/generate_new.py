@@ -179,7 +179,7 @@ def gop_chain(iterations):
         q = random.random()
         if q < 0.01: 
             return prev_part
-        else
+        else:
             return partial(recom,
                        pop_col="TOT_POP",
                        pop_target=ideal_population,
@@ -202,7 +202,7 @@ def gop_chain(iterations):
     for partition in chain.with_progress_bar(): 
         prev_part = this_part
         this_part = partition
-        
+
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
         bias = partisan_bias(partition["SEN12"])
