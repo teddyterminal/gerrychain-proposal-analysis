@@ -179,6 +179,7 @@ def gop_chain(iterations):
         if q < 0.01 and count > 0: 
             #temp = deque([last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0]])
             #last10_part = temp
+            print(last10_part[0])
             return last10_part[0]
         else:
             return recom(partition,
