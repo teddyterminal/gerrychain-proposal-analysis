@@ -8,7 +8,7 @@ import scipy.stats as ss
 import sklearn as skl
 import json
 import matplotlib.pyplot as plt
-
+from collections import deque
 
 
 from gerrychain import Graph, Partition, Election, GeographicPartition
@@ -169,16 +169,15 @@ def gop_chain(iterations):
 
     ideal_population = sum(initial_partition["population"].values()) / len(initial_partition)
 
-    this_part = initial_partition
-    prev_part = initial_partition
+    last10_part = deque([initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition])
 
     # We use functools.partial to bind the extra parameters (pop_col, pop_target, epsilon, node_repeats)
     # of the recom proposal.
 
     def prop(partition): 
         q = random.random()
-        if q < 0.01: 
-            return prev_part
+        if q < 0.01 and count > 5000: 
+            return last10_part[0]
         else:
             return recom(partition,
                        pop_col="TOT_POP",
@@ -200,8 +199,8 @@ def gop_chain(iterations):
     boundary_nodes = []
     boundary_weighted = []
     for partition in chain.with_progress_bar(): 
-        prev_part = this_part
-        this_part = partition
+        last10_part.append(partition)
+        last10_part.popleft()
 
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
