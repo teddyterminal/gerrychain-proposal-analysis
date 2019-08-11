@@ -51,7 +51,7 @@ def republican_constraint(partition):
     wins = partition["SEN12"].wins("Rep")
     if wins < m: 
         rejected += 1
-        if rejected == 500:
+        if rejected == 5:
             print("This processor has rejected 500 consecutive plans at", m, "wins; relaxing constraint")
             tabulate_rejections()
             m -= 1
