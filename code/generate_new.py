@@ -208,6 +208,7 @@ def gop_chain(iterations):
         old_parts[0][0].parent = old_parts[1][0].parent
         old_parts[1] = (partition, count)
         old_parts[1][0].parent = partition.parent
+        print (count, old_parts[0][1], old_parts[1][1], idef, partition.parent, old_parts[1][0].parent, old_parts[0][0].parent)
 
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
