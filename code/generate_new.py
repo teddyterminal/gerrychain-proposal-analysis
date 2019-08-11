@@ -177,6 +177,7 @@ def gop_chain(iterations):
     def prop(partition): 
         q = random.random()
         if q < 0.01 and count > 5000: 
+            last10_part = deque([last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0]])
             return last10_part[0]
         else:
             return recom(partition,
@@ -201,6 +202,8 @@ def gop_chain(iterations):
     for partition in chain.with_progress_bar(): 
         last10_part.append(partition)
         last10_part.popleft()
+        
+        print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
 
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
@@ -233,10 +236,10 @@ def gop_chain(iterations):
                 plt.close()
 
             if count % 8500 == 0: 
-                print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
+                print("THIS IS ONE OF THE ACTUAL PRINT STATEMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
         else:
             if count%1000 == 0:
-                print(idef, "Mixing...... Iteration", count, "/17000")
+                print(idef, "THIS IS ONE OF THE ACTUAL PRINT STATEMENTS!!!!!!!!!!!!!!!!!!!!!! Mixing...... Iteration", count, "/17000")
         count += 1
 
     return metrics, boundary_nodes, boundary_weighted, idef
