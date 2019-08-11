@@ -192,7 +192,7 @@ def gop_chain(iterations):
     chain = MarkovChain(
             proposal=prop,
             constraints=[republican_constraint],
-            accept=contiguous,
+            accept=accept.always_accept,
             initial_state=initial_partition,
             total_steps=85*iterations + 17000
         )
@@ -202,16 +202,6 @@ def gop_chain(iterations):
     boundary_nodes = []
     boundary_weighted = []
     for partition in chain.with_progress_bar(): 
-        print (count, old_parts[1][1], old_parts[2][1], idef, partition.parent, old_parts[1][0].parent, old_parts[2][0].parent)
-
-        old_parts[0] = old_parts[1]
-        old_parts[1] = old_parts[2]
-        old_parts[2] = (partition, count)
-        old_parts[1][0].parent = old_parts[0][0]
-        old_parts[2][0].parent = old_parts[1][0]
-
-        print (count, old_parts[0][1], old_parts[1][1], idef, partition.parent, old_parts[1][0].parent, old_parts[0][0].parent)
-
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
         bias = partisan_bias(partition["SEN12"])
