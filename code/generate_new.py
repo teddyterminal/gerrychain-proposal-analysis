@@ -177,7 +177,8 @@ def gop_chain(iterations):
     def prop(partition): 
         q = random.random()
         if q < 1 and count > 0: 
-            temp = deque([last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0]])
+            temp = deque([last10_part[0], 
+                last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0]])
             last10_part = temp
             #temp = deque([last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0]])
             #last10_part = temp
