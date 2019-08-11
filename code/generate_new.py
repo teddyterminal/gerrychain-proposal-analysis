@@ -36,7 +36,6 @@ print("Shapefile read!!!")
 m = 9
 rejected = 0
 rejections = {}
-count = 0
 
 def pp(plan):
     polsby = polsby_popper(plan)
@@ -153,7 +152,6 @@ def chain(iterations):
     return metrics, boundary_nodes, boundary_weighted, idef
 
 def gop_chain(iterations):
-    global count 
     idef = random.randint(1, 10000)
     graph = Graph.from_json("../data/PA_init/PA_VTD.json")
 
@@ -170,14 +168,17 @@ def gop_chain(iterations):
     )
 
     ideal_population = sum(initial_partition["population"].values()) / len(initial_partition)
+
+    this_part = initial_partition
+    prev_part = initial_partition
+
     # We use functools.partial to bind the extra parameters (pop_col, pop_target, epsilon, node_repeats)
     # of the recom proposal.
 
     def prop(partition): 
         q = random.random()
-        print(q)
-        if q < 0.01 and count > 3: 
-            return old_parts[0][0]
+        if q < 0.01: 
+            return prev_part
         else:
             return recom(partition,
                        pop_col="TOT_POP",
@@ -199,6 +200,9 @@ def gop_chain(iterations):
     boundary_nodes = []
     boundary_weighted = []
     for partition in chain.with_progress_bar(): 
+        prev_part = this_part
+        this_part = partition
+
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
         bias = partisan_bias(partition["SEN12"])
