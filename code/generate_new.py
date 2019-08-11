@@ -171,7 +171,7 @@ def gop_chain(iterations):
 
     ideal_population = sum(initial_partition["population"].values()) / len(initial_partition)
 
-    old_parts = [initial_partition, initial_partition]
+    old_parts = [(initial_partition, 0), (initial_partition, 0)]
 
     # We use functools.partial to bind the extra parameters (pop_col, pop_target, epsilon, node_repeats)
     # of the recom proposal.
@@ -180,7 +180,7 @@ def gop_chain(iterations):
         q = random.random()
         print(q)
         if q < 0.01 and count > 3: 
-            return old_parts[0]
+            return old_parts[0][0]
         else:
             return recom(partition,
                        pop_col="TOT_POP",
@@ -202,13 +202,13 @@ def gop_chain(iterations):
     boundary_nodes = []
     boundary_weighted = []
     for partition in chain.with_progress_bar(): 
-        if (old_parts[0].parent == None):
-            print (count, idef, "HALP", old_parts[0] == initial_partition)
+        if (old_parts[0][0].parent == None):
+            print (count, old_parts[0][1], idef, "HALP", old_parts[0] == initial_partition)
 
         if (partition.parent == None):
             print(partition == initial_partition, "HALP2", idef, count)
         old_parts[0] = old_parts[1]
-        old_parts[1] = partition
+        old_parts[1] = (partition, count)
 
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
