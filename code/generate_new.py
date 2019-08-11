@@ -176,7 +176,7 @@ def gop_chain(iterations):
 
     def prop(partition): 
         q = random.random()
-        if q < 0.01 and count > 5000: 
+        if q < 0.01 and count > 0: 
             last10_part = deque([last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0]])
             return last10_part[0]
         else:
