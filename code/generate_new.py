@@ -202,8 +202,6 @@ def gop_chain(iterations):
     for partition in chain.with_progress_bar(): 
         last10_part.append(partition)
         last10_part.popleft()
-        
-        print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
 
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
@@ -211,6 +209,9 @@ def gop_chain(iterations):
         gini = partisan_gini(partition["SEN12"])
         gap = efficiency_gap(partition["SEN12"])
         cut = len(partition["cut_edges"])
+
+        print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
+
         if count >= 17000:
             if count % 85 == 0:
                 metrics.append((mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep")))
