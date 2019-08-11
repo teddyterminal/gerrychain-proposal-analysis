@@ -172,6 +172,7 @@ def gop_chain(iterations):
     ideal_population = sum(initial_partition["population"].values()) / len(initial_partition)
 
     old_parts = [(initial_partition, 0), (initial_partition, 0)]
+    parents = [(initial_partition, 0), (initial_partition, 0)]
 
     # We use functools.partial to bind the extra parameters (pop_col, pop_target, epsilon, node_repeats)
     # of the recom proposal.
@@ -205,9 +206,12 @@ def gop_chain(iterations):
         print (count, old_parts[0][1], old_parts[1][1], idef, partition.parent, old_parts[1][0].parent, old_parts[0][0].parent)
 
         old_parts[0] = old_parts[1]
-        old_parts[0][0].parent = old_parts[1][0].parent
+        parents[0] = parents[1]
         old_parts[1] = (partition, count)
-        old_parts[1][0].parent = partition.parent
+        parents[1] = old_parts[0]
+        old_parts[0][0].parent = parents[0][0]
+        old_parts[1][0].parent = parents[1][0]
+
         print (count, old_parts[0][1], old_parts[1][1], idef, partition.parent, old_parts[1][0].parent, old_parts[0][0].parent)
 
         mm = mean_median(partition["SEN12"])
