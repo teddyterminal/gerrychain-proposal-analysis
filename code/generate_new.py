@@ -49,10 +49,10 @@ def republican_constraint(partition):
     global rejected
 
     wins = partition["SEN12"].wins("Rep")
-    if wins < m: 
+    if wins < m:
         rejected += 1
-        if rejected == 500:
-            print("This processor has rejected 500 consecutive plans at", m, "wins; relaxing constraint")
+        if rejected == 35:
+            print("This processor has rejected 35 consecutive plans at", m, "wins; relaxing constraint")
             tabulate_rejections()
             m -= 1
         return False
@@ -169,32 +169,18 @@ def gop_chain(iterations):
 
     ideal_population = sum(initial_partition["population"].values()) / len(initial_partition)
 
-    last10_part = deque([initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition, initial_partition])
-
     # We use functools.partial to bind the extra parameters (pop_col, pop_target, epsilon, node_repeats)
     # of the recom proposal.
 
-    def prop(partition): 
-        q = random.random()
-        if q < 0.01 and count > 5000: 
-            nonlocal last10_part
-
-            temp = deque([last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0], last10_part[0]])
-            last10_part = temp
-            print(last10_part[0])
-            return last10_part[0]
-        else:
-            return recom(partition,
+    chain = MarkovChain(
+            proposal = partial(recom,
                        pop_col="TOT_POP",
                        pop_target=ideal_population,
                        epsilon=0.02,
                        node_repeats=2
-                      )
-
-    chain = MarkovChain(
-            proposal=prop,
-            constraints=[republican_constraint],
-            accept=always_accept,
+                      ),
+            constraints=[],
+            accept=republican_constraint,
             initial_state=initial_partition,
             total_steps=85*iterations + 17000
         )
@@ -204,8 +190,6 @@ def gop_chain(iterations):
     boundary_nodes = []
     boundary_weighted = []
     for partition in chain.with_progress_bar(): 
-        last10_part.append(partition)
-        last10_part.popleft()
 
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
@@ -213,8 +197,6 @@ def gop_chain(iterations):
         gini = partisan_gini(partition["SEN12"])
         gap = efficiency_gap(partition["SEN12"])
         cut = len(partition["cut_edges"])
-
-        print(idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
 
         if count >= 17000:
             if count % 85 == 0:
@@ -236,15 +218,15 @@ def gop_chain(iterations):
                 plt.axis('off')
                 fig = plt.gcf()
                 fig.set_size_inches((15,9), forward=False)
-                fig.savefig("../images/PA_gop/" + str(idef) + str(int((count-17000)/85)+1) +  ".png", dpi=600, bbox_inches="tight", pad_inches=0)
+                fig.savefig("../images/PA_gop/" + str(idef).zfill(4) + str(int((count-17000)/85)+1).zfill(3) +  ".png", dpi=600, bbox_inches="tight", pad_inches=0)
 
                 plt.close()
 
-            if count % 8500 == 0: 
-                print("THIS IS ONE OF THE ACTUAL PRINT STATEMENTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", idef, count, mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
+            if count % 850 == 0: 
+                print(idef, count, int((count-17000)/85+1), mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
         else:
             if count%1000 == 0:
-                print(idef, "THIS IS ONE OF THE ACTUAL PRINT STATEMENTS!!!!!!!!!!!!!!!!!!!!!! Mixing...... Iteration", count, "/17000")
+                print(idef, "Mixing...... Iteration", count, "/17000", partition["SEN12"].wins("Rep"))
         count += 1
 
     return metrics, boundary_nodes, boundary_weighted, idef
