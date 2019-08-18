@@ -202,12 +202,12 @@ def gop_chain(iterations):
         )
 
     count = 0
-    for partition in init_chain.with_progress_bar(): 
+    for partition in init_chain: 
         if count % 100 == 0: 
             print(idef, partition["SEN12"].wins("Rep"))
         if partition["SEN12"].wins("Rep") >= 12: 
             initial_partition = partition
-            print(idef, count)
+            print(idef, count, partition["SEN12"].wins("Rep"))
             break
         count += 1
 
@@ -228,7 +228,7 @@ def gop_chain(iterations):
     metrics = []
     boundary_nodes = []
     boundary_weighted = []
-    for partition in chain.with_progress_bar(): 
+    for partition in chain: 
 
         mm = mean_median(partition["SEN12"])
         p = pp(partition)
