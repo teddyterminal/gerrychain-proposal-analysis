@@ -44,6 +44,22 @@ def pp(plan):
         popper += polsby[i]
     return popper/len(polsby)
 
+def growth_constraint(partition):
+    global m 
+    global rejected
+
+    wins = partition["SEN12"].wins("Rep")
+    if wins < m:
+        rejected += 1
+        if rejected == 35:
+            print("This processor has rejected 35 consecutive plans at", m, "wins; relaxing constraint")
+            tabulate_rejections()
+            m -= 1
+        return False
+    tabulate_rejections()
+    m = wins
+    return True 
+
 def republican_constraint(partition):
     global m 
     global rejected
@@ -179,7 +195,7 @@ def gop_chain(iterations):
                        epsilon=0.02,
                        node_repeats=2
                       ),
-            constraints=[republican_constraint],
+            constraints=[growth_constraint],
             accept= always_accept,
             initial_state=initial_partition,
             total_steps=100000
