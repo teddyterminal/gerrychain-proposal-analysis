@@ -186,7 +186,7 @@ def gop_chain(iterations):
         )
 
     count = 0
-    for partition in chain.with_progress_bar(): 
+    for partition in init_chain.with_progress_bar(): 
         if partition["SEN12"].wins("Rep") >= 12: 
             initial_partition = partition
             print(idef, count)
