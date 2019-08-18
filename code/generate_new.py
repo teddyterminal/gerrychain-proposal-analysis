@@ -179,7 +179,7 @@ def gop_chain(iterations):
                        epsilon=0.02,
                        node_repeats=2
                       ),
-            constraints=[],
+            constraints=[republican_constraint],
             accept= always_accept,
             initial_state=initial_partition,
             total_steps=100000
@@ -187,6 +187,8 @@ def gop_chain(iterations):
 
     count = 0
     for partition in init_chain.with_progress_bar(): 
+        if count % 100 == 0: 
+            print(idef, partition["SEN12"].wins("Rep"))
         if partition["SEN12"].wins("Rep") >= 12: 
             initial_partition = partition
             print(idef, count)
