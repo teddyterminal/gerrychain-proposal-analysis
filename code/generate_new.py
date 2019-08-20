@@ -12,6 +12,7 @@ from collections import deque
 
 
 from gerrychain import Graph, Partition, Election, GeographicPartition
+from gerrychain.tree import random_spanning_tree
 from gerrychain.updaters import Tally, cut_edges
 from gerrychain import MarkovChain
 from gerrychain.constraints import contiguous
