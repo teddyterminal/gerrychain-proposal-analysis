@@ -186,7 +186,7 @@ def gop_chain(iterations):
                        epsilon=0.02,
                        node_repeats=2
                       ),
-            constraints=[same_contstraint],
+            constraints=[same_constraint],
             accept=republican_constraint,
             initial_state=initial_partition,
             total_steps=85*iterations + 17000
