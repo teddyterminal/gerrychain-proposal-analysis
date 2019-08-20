@@ -1,24 +1,5 @@
 from gerrychain.random import random
-
-def contract_leaves_until_balanced_or_none(h, choice=random.choice):
-    # this used to be greater than 2 but failed on small grids:(
-    root = choice([x for x in h.nodes if h.degree(x) > 1])
-    # BFS predecessors for iteratively contracting leaves
-    pred = predecessors(h, root)
-
-    # As we contract leaves, we keep track of which nodes merged together in
-    # this dictionary:
-    while len(h) > 1:
-        leaves = [x for x in h if h.degree(x) == 1 and x != root]
-
-        for leaf in leaves:
-            if h.has_ideal_population(leaf):
-                return h.subsets[leaf]
-            # Contract the leaf:
-            parent = pred[leaf]
-            h.contract_node(leaf, parent)
-    return None
-
+from gerrychain.tree import *
 
 def recom(partition, pop_col, pop_target, epsilon, node_repeats):
     """ReCom proposal.
