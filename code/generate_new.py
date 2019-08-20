@@ -17,7 +17,7 @@ from gerrychain import MarkovChain
 from gerrychain.constraints import contiguous
 from gerrychain.proposals import *
 from gerrychain.accept import always_accept
-from gerrychain.proposals import recom
+from modified_tree import recom
 from functools import partial
 from gerrychain.metrics import mean_median
 from gerrychain.metrics import partisan_bias
@@ -36,6 +36,7 @@ print("Shapefile read!!!")
 m = 9
 rejected = 0
 rejections = {}
+last_partition = None
 
 def pp(plan):
     polsby = polsby_popper(plan)
@@ -44,28 +45,18 @@ def pp(plan):
         popper += polsby[i]
     return popper/len(polsby)
 
-def growth_constraint(partition):
-    global m 
-    global rejected
-
-    wins = partition["SEN12"].wins("Rep")
-    if wins < m:
-        rejected += 1
-        if rejected == 35:
-            print("This processor has rejected 35 consecutive plans at", m, "wins; relaxing constraint")
-            tabulate_rejections()
-            m -= 1
+def same_constraint(partition):
+    global last_partition
+    if partition == last_partition: 
         return False
-    tabulate_rejections()
-    m = wins
-    return True 
+    return True
 
 def republican_constraint(partition):
     global m 
     global rejected
 
     wins = partition["SEN12"].wins("Rep")
-    if wins < 12:
+    if wins < m:
         rejected += 1
         if rejected == 35:
             print("This processor has rejected 35 consecutive plans at", m, "wins; relaxing constraint")
@@ -188,29 +179,6 @@ def gop_chain(iterations):
     # We use functools.partial to bind the extra parameters (pop_col, pop_target, epsilon, node_repeats)
     # of the recom proposal.
 
-    init_chain = MarkovChain(
-            proposal = partial(recom,
-                       pop_col="TOT_POP",
-                       pop_target=ideal_population,
-                       epsilon=0.02,
-                       node_repeats=2
-                      ),
-            constraints=[growth_constraint],
-            accept= always_accept,
-            initial_state=initial_partition,
-            total_steps=100000
-        )
-
-    count = 0
-    for partition in init_chain.with_progress_bar(): 
-        if count % 100 == 0: 
-            print(idef, partition["SEN12"].wins("Rep"))
-        if partition["SEN12"].wins("Rep") >= 12: 
-            initial_partition = partition
-            print(idef, count, partition["SEN12"].wins("Rep"))
-            break
-        count += 1
-
     chain = MarkovChain(
             proposal = partial(recom,
                        pop_col="TOT_POP",
@@ -218,7 +186,7 @@ def gop_chain(iterations):
                        epsilon=0.02,
                        node_repeats=2
                       ),
-            constraints=[],
+            constraints=[same_contstraint],
             accept=republican_constraint,
             initial_state=initial_partition,
             total_steps=85*iterations + 17000
@@ -261,7 +229,7 @@ def gop_chain(iterations):
 
                 plt.close()
 
-            if count % 850 == 0: 
+            if count % 1700 == 0: 
                 print(idef, count, int((count-17000)/85+1), mm, p, bias, gini, gap, cut, partition["SEN12"].wins("Rep"))
         else:
             if count%1000 == 0:
